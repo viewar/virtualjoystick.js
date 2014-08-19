@@ -10,7 +10,7 @@ export default VirtualJoystick;
 
 function VirtualJoystick(options) {
 	options = options || {};
-	this._checkValid       = options.checkValid || () => true;
+	this._checkValid       = options.checkValid || function () { return true; };
 	this._container        = options.container || document.body;
 	this._strokeStyle      = options.strokeStyle || 'cyan';
 	this._stickEl          = options.stickElement || this._buildJoystickStick();
@@ -64,7 +64,7 @@ VirtualJoystick.prototype._onUp = function () {
 	this._stickEl.style.display = "none";
 
 	if (!this._stationaryBase) {
-		this._baseEl.style.display	= "none";
+		this._baseEl.style.display = "none";
 
 		this._baseX  = this._baseY  = 0;
 		this._stickX = this._stickY = 0;
