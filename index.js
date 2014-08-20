@@ -217,8 +217,9 @@ function circle(ctx, style, width, x, y, r) {
 }
 
 VirtualJoystick.prototype._buildJoystickBase = function () {
-	var canvas = autoscale(document.createElement('canvas'));
+	var canvas = document.createElement('canvas');
 	canvas.width = canvas.height = 126;
+	autoscale(canvas);
 	var ctx = canvas.getContext('2d');
 
 	circle(ctx, this._strokeStyle, 6, 63, 63, 40);
@@ -228,8 +229,9 @@ VirtualJoystick.prototype._buildJoystickBase = function () {
 }
 
 VirtualJoystick.prototype._buildJoystickStick = function () {
-	var canvas = autoscale(document.createElement('canvas'));
+	var canvas = document.createElement('canvas');
 	canvas.width = canvas.height = 86;
+	autoscale(canvas);
 	var ctx = canvas.getContext('2d');
 
 	circle(ctx, this._strokeStyle, 6, 43, 43, 40);
