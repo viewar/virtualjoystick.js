@@ -37,13 +37,13 @@ function VirtualJoystick(options) {
 		this._baseEl.style.top  = (this._baseY - this._baseEl.height / 2) + "px";
 	}
 
-	var events = this._events = events(this._container, this);
-	events.bind('mousedown' , '_onMouseDown');
-	events.bind('mousemove' , '_onMouseMove');
-	events.bind('mouseup'   , '_onMouseUp');
-	events.bind('touchstart', '_onTouchStart');
-	events.bind('touchend'  , '_onTouchEnd');
-	events.bind('touchmove' , '_onTouchMove');
+	this._events = events(this._container, this);
+	this._events.bind('mousedown' , '_onMouseDown');
+	this._events.bind('mousemove' , '_onMouseMove');
+	this._events.bind('mouseup'   , '_onMouseUp');
+	this._events.bind('touchstart', '_onTouchStart');
+	this._events.bind('touchend'  , '_onTouchEnd');
+	this._events.bind('touchmove' , '_onTouchMove');
 }
 
 Emitter(VirtualJoystick.prototype);
