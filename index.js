@@ -37,13 +37,14 @@ function VirtualJoystick(options) {
 		this._baseEl.style.top  = (this._baseY - this._baseEl.height / 2) + "px";
 	}
 
-	this._events = events(this._container, this);
-	this._events.bind('mousedown' , '_onMouseDown');
-	this._events.bind('mousemove' , '_onMouseMove');
-	this._events.bind('mouseup'   , '_onMouseUp');
-	this._events.bind('touchstart', '_onTouchStart');
-	this._events.bind('touchend'  , '_onTouchEnd');
-	this._events.bind('touchmove' , '_onTouchMove');
+	this._containerevents = events(this._container, this);
+	this._containerevents.bind('mousedown' , '_onMouseDown');
+	this._containerevents.bind('touchstart', '_onTouchStart');
+	this._docevents = events(document.body, this);
+	this._docevents.bind('mousemove', '_onMouseMove');
+	this._docevents.bind('mouseup'  , '_onMouseUp');
+	this._docevents.bind('touchend' , '_onTouchEnd');
+	this._docevents.bind('touchmove', '_onTouchMove');
 }
 
 Emitter(VirtualJoystick.prototype);
@@ -51,7 +52,8 @@ Emitter(VirtualJoystick.prototype);
 VirtualJoystick.prototype.destroy = function () {
 	this._container.removeChild(this._baseEl);
 	this._container.removeChild(this._stickEl);
-	this._events.unbind();
+	this._containerevents.unbind();
+	this._docevents.unbind();
 }
 
 VirtualJoystick.prototype.deltaX = function () { return this._stickX - this._baseX; };
@@ -71,7 +73,8 @@ VirtualJoystick.prototype._onUp = function () {
 	}
 }
 
-VirtualJoystick.prototype._onDown = function (x, y) {
+VirtualJoystick.prototype._onDown = function (coords) {
+	var x = coords[0], y = coords[1];
 	if (!this._checkValid(x, y)) return;
 
 	this.emit('start', x, y);
@@ -80,7 +83,7 @@ VirtualJoystick.prototype._onDown = function (x, y) {
 		this._baseX = x;
 		this._baseY = y;
 		this._baseEl.style.display = "block";
-		translate(this._baseEl.style,
+		translate(this._baseEl,
 		          this._baseX - this._baseEl.width  / 2,
 		          this._baseY - this._baseEl.height / 2);
 	}
@@ -102,14 +105,15 @@ VirtualJoystick.prototype._onDown = function (x, y) {
 	}
 
 	this._stickEl.style.display = "block";
-	translate(this._stickEl.style,
+	translate(this._stickEl,
 	          this._stickX - this._stickEl.width  / 2,
 	          this._stickY - this._stickEl.height / 2);
 }
 
-VirtualJoystick.prototype._onMove = function (x, y) {
+VirtualJoystick.prototype._onMove = function (coords) {
 	if (!this._pressed) return;
 
+	var x = coords[0], y = coords[1];
 	this.emit('move', x, y);
 	this._stickX = x;
 	this._stickY = y;
@@ -126,7 +130,7 @@ VirtualJoystick.prototype._onMove = function (x, y) {
 			this._stickY = stickNormalizedY * this._stickRadius + this._baseY;
 		}
 	}
-	translate(this._stickEl.style,
+	translate(this._stickEl,
 	          this._stickX - this._stickEl.width  / 2,
 	          this._stickY - this._stickEl.height / 2);
 }
@@ -135,17 +139,23 @@ VirtualJoystick.prototype._onMouseUp = function (event) {
 	return this._onUp();
 }
 
+VirtualJoystick.prototype._offset = function (ev) {
+	var coords = [ev.clientX, ev.clientY];
+	var offset = this._container;
+	do {
+		coords[0] -= offset.offsetLeft;
+		coords[1] -= offset.offsetTop;
+	} while (offset = offset.offsetParent);
+	return coords;
+}
+
 VirtualJoystick.prototype._onMouseDown = function (event) {
 	event.preventDefault();
-	var x = event.clientX;
-	var y = event.clientY;
-	return this._onDown(x, y);
+	return this._onDown(this._offset(event));
 }
 
 VirtualJoystick.prototype._onMouseMove = function (event) {
-	var x = event.clientX;
-	var y = event.clientY;
-	return this._onMove(x, y);
+	return this._onMove(this._offset(event));
 }
 
 VirtualJoystick.prototype._onTouchStart = function (event) {
@@ -159,9 +169,7 @@ VirtualJoystick.prototype._onTouchStart = function (event) {
 	this._touchIdx = touch.identifier;
 
 	// forward the action
-	var x = touch.pageX;
-	var y = touch.pageY;
-	return this._onDown(x, y);
+	return this._onDown(this._offset(touch));
 }
 
 VirtualJoystick.prototype._onTouchEnd = function (event) {
@@ -197,9 +205,7 @@ VirtualJoystick.prototype._onTouchMove = function (event) {
 
 	event.preventDefault();
 
-	var x = touch.pageX;
-	var y = touch.pageY;
-	return this._onMove(x, y);
+	return this._onMove(this._offset(touch));
 }
 
 function circle(ctx, style, width, x, y, r) {
