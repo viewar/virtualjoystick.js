@@ -1,7 +1,7 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
 "use strict";
 
-import translate from 'component-translate';
+import translate from 'translate-component';
 import events from 'component-events';
 import Emitter from 'component-emitter';
 import autoscale from 'autoscale-canvas';
