@@ -1,10 +1,10 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
 "use strict";
 
-import translate from 'component/translate@0';
-import events from 'component/events@1';
-import Emitter from 'component/emitter@1';
-import autoscale from 'component/autoscale-canvas@0';
+import translate from 'component-translate';
+import events from 'component-events';
+import Emitter from 'component-emitter';
+import autoscale from 'autoscale-canvas';
 
 export default VirtualJoystick;
 
