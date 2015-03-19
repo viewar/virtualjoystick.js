@@ -1,0 +1,32 @@
+{
+  "name": "virtualjoystick.js",
+  "version": "1.0.0",
+  "description": "Small library that emulates joysticks for touchscreens",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/viewar/virtualjoystick.js.git"
+  },
+  "keywords": [
+    "Joystick",
+    "Touchscreen"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/viewar/virtualjoystick.js/issues"
+  },
+  "homepage": "https://github.com/viewar/virtualjoystick.js",
+  "dependencies": {
+    "autoscale-canvas": "git://github.com/component/autoscale-canvas",
+    "component-emitter": "git://github.com/component/emitter",
+    "component-events": "git://github.com/component/events",
+    "translate-component": "git://github.com/component/translate"
+  }
+}
