@@ -209,7 +209,7 @@ VirtualJoystick.prototype._onTouchMove = function (event) {
 	return this._onMove(this._offset(touch));
 }
 
-Joystick.prototype._onTouchCancel = function (event) {
+VirtualJoystick.prototype._onTouchCancel = function (event) {
 	this._touchIdx = null;
 }
 
