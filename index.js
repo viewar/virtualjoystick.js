@@ -45,6 +45,7 @@ function VirtualJoystick(options) {
 	this._docevents.bind('mouseup'  , '_onMouseUp');
 	this._docevents.bind('touchend' , '_onTouchEnd');
 	this._docevents.bind('touchmove', '_onTouchMove');
+	this._docevents.bind('touchcancel', '_onTouchCancel');
 }
 
 Emitter(VirtualJoystick.prototype);
@@ -206,6 +207,10 @@ VirtualJoystick.prototype._onTouchMove = function (event) {
 	event.preventDefault();
 
 	return this._onMove(this._offset(touch));
+}
+
+Joystick.prototype._onTouchCancel = function (event) {
+	this._touchIdx = null;
 }
 
 function circle(ctx, style, width, x, y, r) {
