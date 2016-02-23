@@ -68,10 +68,10 @@ VirtualJoystick.prototype._onUp = function () {
 
 	if (!this._stationaryBase) {
 		this._baseEl.style.display = "none";
-
-		this._baseX  = this._baseY  = 0;
-		this._stickX = this._stickY = 0;
 	}
+
+	this._baseX  = this._baseY  = 0;
+	this._stickX = this._stickY = 0;
 }
 
 VirtualJoystick.prototype._onDown = function (coords) {
