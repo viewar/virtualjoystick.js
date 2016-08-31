@@ -4,8 +4,9 @@ module.exports = {
   },
   output: {
     path: 'bin',
-    filename: '[name].js',
-    sourceMapFilename: '[file].map'
+    filename: 'index.js',
+    library: 'virtualJoystick',
+    libraryTarget: 'umd'
   },
   module: {
     loaders: [
