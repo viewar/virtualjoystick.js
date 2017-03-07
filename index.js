@@ -13,6 +13,9 @@ function VirtualJoystick(options) {
 	this._checkValid       = options.checkValid || function () { return true; };
 	this._container        = options.container || document.body;
 	this._strokeStyle      = options.strokeStyle || 'cyan';
+  this._stickBaseHidden  = options.stickBaseHidden !== undefined ? options.stickBaseHidden : false;
+  this._stickDisplayRadius = options.stickDisplayRadius !== undefined ? options.stickDisplayRadius : 40;
+  this._stickBaseDisplayRadius = options.stickBaseDisplayRadius !== undefined ? options.stickBaseDisplayRadius : 60;
 	this._stickEl          = options.stickElement || this._buildJoystickStick();
 	this._baseEl           = options.baseElement || this._buildJoystickBase();
 	this._stationaryBase   = options.stationaryBase || false;
@@ -225,10 +228,13 @@ VirtualJoystick.prototype._buildJoystickBase = function () {
 	var canvas = document.createElement('canvas');
 	canvas.width = canvas.height = 126;
 	//autoscale(canvas);
-	var ctx = canvas.getContext('2d');
 
-	circle(ctx, this._strokeStyle, 6, 63, 63, 40);
-	circle(ctx, this._strokeStyle, 2, 63, 63, 60);
+	if (!this._stickBaseHidden) {
+		var ctx = canvas.getContext('2d');
+
+		circle(ctx, this._strokeStyle, 6, 63, 63, this._stickDisplayRadius);
+		circle(ctx, this._strokeStyle, 2, 63, 63, this._stickBaseDisplayRadius);
+	}
 
 	return canvas;
 }
@@ -239,7 +245,7 @@ VirtualJoystick.prototype._buildJoystickStick = function () {
 	//autoscale(canvas);
 	var ctx = canvas.getContext('2d');
 
-	circle(ctx, this._strokeStyle, 6, 43, 43, 40);
+	circle(ctx, this._strokeStyle, 6, 43, 43, this._stickDisplayRadius);
 
 	return canvas;
 }
